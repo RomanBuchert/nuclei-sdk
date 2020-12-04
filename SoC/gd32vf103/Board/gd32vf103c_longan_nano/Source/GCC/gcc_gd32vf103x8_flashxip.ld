@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Nuclei Limited. All rights reserved.
+ * Copyright (c) 2019 - 2020 Nuclei Limited. All rights reserved.
  *
  * SPDX-License-Identifier: Apache-2.0
  *
@@ -16,10 +16,10 @@
  * limitations under the License.
  */
 /******************************************************************************
- * @file     gcc_Device.ld
- * @brief    GNU Linker Script for gd32vf103 based device
+ * @file     gcc_gd32vf103x8_flashxip.ld
+ * @brief    GNU Linker Script for gd32vf103x8 based device
  * @version  V1.0.0
- * @date     17. Dec 2019
+ * @date     1. Dec 2020
  ******************************************************************************/
 
 /*********** Use Configuration Wizard in Context Menu *************************/
@@ -32,7 +32,7 @@ OUTPUT_ARCH( "riscv" )
  * </h>
  */
 __ROM_BASE = 0x08000000;
-__ROM_SIZE = 0x00020000;
+__ROM_SIZE = 0x00010000;
 
 /*--------------------- ILM RAM Configuration ---------------------------
  * <h> ILM RAM Configuration
