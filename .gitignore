@@ -33,3 +33,4 @@ Makefile.global
 doc/build/
 _build
 /baue/
+/build/
