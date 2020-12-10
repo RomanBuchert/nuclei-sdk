@@ -15,9 +15,10 @@ project(Test)
 
 add_subdirectory("SoC/gd32vf103/Common")
 
+
 add_executable(${PROJECT_NAME} main.c)
 
-target_include_directories(gd32vf103lib PUBLIC include)
-
-target_link_libraries(${PROJECT_NAME} gd32vf103lib)
+target_link_libraries(${PROJECT_NAME}
+  gd32vf103lib
+)
 

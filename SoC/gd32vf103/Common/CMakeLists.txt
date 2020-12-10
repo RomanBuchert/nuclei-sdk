@@ -44,9 +44,6 @@ file(GLOB
   CONFIGURE_DEPENDS
   "Source/Drivers/*.c"
 )
-foreach( ITM IN LISTS DRIVER_FILES)
-  message("${ITM}")
-endforeach()
 # --------------------------------------------------
 
 # --------------------------------------------------
@@ -85,10 +82,6 @@ file(GLOB
   "Include/USB/*.h"
 )
 set(HEADER_FILES ${STD_HEADER_FILES})
-
-foreach(HDR IN LISTS HEADER_FILES)
-  message("${HDR}")
-endforeach()
 # --------------------------------------------------
 
 
@@ -101,6 +94,7 @@ add_library(${PROJECT_NAME} STATIC
   ${DRIVER_FILES}
   ${STUB_FILES}
 )
+#target_link_libraries(${PROJECT_NAME} INTERFACE nmsislib)
 # --------------------------------------------------
 
 # --------------------------------------------------
