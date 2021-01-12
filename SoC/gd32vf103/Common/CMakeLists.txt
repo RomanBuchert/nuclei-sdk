@@ -4,6 +4,7 @@ cmake_minimum_required(VERSION 3.14)
 # --------------------------------------------------
 set(SOC "gd32vf103cb")
 
+include(GNUInstallDirs)
 include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/project_setup.cmake")
 
 
@@ -64,9 +65,18 @@ list(REMOVE_ITEM
 )
 # --------------------------------------------------
 
+
 # --------------------------------------------------
 # Collect header files
 # --------------------------------------------------
+set(NMSIS_BASE_DIR "${CMAKE_CURRENT_SOURCE_DIR}")
+file(GLOB
+  NMSIS_HEADER_FILES
+  LIST_DIRECTORIES false
+  RELATIVE ${NMSIS_BASE_DIR}
+  CONFIGURE_DEPENDS
+  "../../../NMSIS/Core/Include/*.h"
+)
 file(GLOB
   STD_HEADER_FILES
   LIST_DIRECTORIES false
@@ -81,7 +91,9 @@ file(GLOB
   CONFIGURE_DEPENDS
   "Include/USB/*.h"
 )
-set(HEADER_FILES ${STD_HEADER_FILES})
+set(HEADER_FILES
+  ${STD_HEADER_FILES}
+)
 # --------------------------------------------------
 
 
@@ -90,6 +102,7 @@ set(HEADER_FILES ${STD_HEADER_FILES})
 # --------------------------------------------------
 add_library(${PROJECT_NAME} STATIC
   "Source/gd32vf103_soc.c"
+  "Source/system_gd32vf103.c"
   ${STARTUP_FILES}
   ${DRIVER_FILES}
   ${STUB_FILES}
@@ -120,7 +133,39 @@ install(
   LIBRARY
   ARCHIVE
   RUNTIME
-  INCLUDES
+)
+
+
+# --------------------------------------------------
+# Install linker script
+# --------------------------------------------------
+install(
+  FILES ${CMAKE_CURRENT_BINARY_DIR}/gcc_link.ld
+    TYPE LIB
+)
+
+# --------------------------------------------------
+# Install NMSIS Headers
+# --------------------------------------------------
+install(
+  FILES ${NMSIS_HEADER_FILES}
+    DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/NMSIS"
+)
+
+# --------------------------------------------------
+# Install GD32VF103 Headers
+# --------------------------------------------------
+#install(
+#  FILES ${HEADER_FILES}
+#    DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/gd32vf103"
+#)
+
+# --------------------------------------------------
+# Install USB Headers
+# --------------------------------------------------
+install(
+  FILES ${USB_HEADER_FILES}
+    DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/usb"
 )
 
 export(TARGETS ${PROJECT_NAME}
