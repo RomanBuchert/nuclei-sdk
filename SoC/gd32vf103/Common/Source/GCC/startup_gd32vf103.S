@@ -41,12 +41,15 @@
      * ILM: .vtable
      * Flash: .vtable_ilm
      */
+#if 0
 #if defined(DOWNLOAD_MODE) && (DOWNLOAD_MODE == DOWNLOAD_MODE_FLASH)
     .section .vtable_ilm
 #else
     .section .vtable
 #endif
-
+#else
+	.section .vtable
+#endif
     .weak  eclic_msip_handler
     .weak  eclic_mtip_handler
     .weak  eclic_bwei_handler
@@ -115,11 +118,17 @@
 
     .globl vector_base
 vector_base:
+#if 0
 #if defined(DOWNLOAD_MODE) && (DOWNLOAD_MODE != DOWNLOAD_MODE_FLASH)
     j _start                                                /* 0: Reserved, Jump to _start when reset for ILM/FlashXIP mode.*/
     .align LOG_REGBYTES                                     /*    Need to align 4 byte for RV32, 8 Byte for RV64 */
+#warning "Downloadmode!!!"
 #else
     DECLARE_INT_HANDLER     default_intexc_handler          /* 0: Reserved, default handler for Flash download mode */
+#endif
+#else
+    j _start                                                /* 0: Reserved, Jump to _start when reset for ILM/FlashXIP mode.*/
+    .align LOG_REGBYTES                                     /*    Need to align 4 byte for RV32, 8 Byte for RV64 */
 #endif
     DECLARE_INT_HANDLER     default_intexc_handler          /* 1: Reserved */
     DECLARE_INT_HANDLER     default_intexc_handler          /* 2: Reserved */
